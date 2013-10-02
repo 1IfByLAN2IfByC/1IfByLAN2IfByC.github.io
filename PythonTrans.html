@@ -22,15 +22,21 @@
     	</header>
 
 	    <section>
+	    	
 	    	<h1> A Transport Optimization Model in Python </h1>
 
 	    	<p>
 	    		Transportation problems deal with efficiently allocating resources from supply to demand node given a cost function. Using linear optimization, these problems can be solved using computational methods via python and the module <a href="https://pypi.python.org/pypi/PuLP">PuLP</a>. </p>
 	    		
-	    	<p>
-	    		In the proposed model, there exists two supply nodes-- each with their own respective production quantities and labor costs-- who must ship to five markets of different distances and retail prices. The goal of the model can be either a) cost-minimization or b) profit-maximization. </p>
-	    	
 	    		
+	    	<p>
+	    		In the proposed model, there exists two supply nodes-- each with their own respective production quantities and labor costs-- who must ship to five markets of different distances and retail prices. The goal of the model can be either a) cost-minimization or b) profit-maximization.<br><br>
+	    	
+	    			<a href="https://github.com/1IfByLAN2IfByC/Compuational_Econ-/tree/master/TransportModel">Complete code and formal write-up can be found @Github</a> 
+	    			
+	    	</p>
+	    			 
+	    			 
 	    	<h3> Setting up the Model </h3>
 	    	
 	    	<p>
@@ -54,14 +60,19 @@
 	    	
 	    	<center>cost<sub>i,j</sub> = distance<sub>i,j</sub> * wage<sub>i,j</sub></center>
 	    	
-	    	we can minimize the cost subject to:
+	    	we can minimize the cost subject to: <br>
 	    	
 	    	<center><span>&Sigma;</span>Supply = <span>&Sigma;</span>Demand</center>
+	    	
+	    	<br>
 	    	
 	   <script src="https://gist.github.com/1IfByLAN2IfByC/4c11506e6da8ab3b0644.js"></script>
 	   
 	    </p>
 	    
+	    <p>
+	    	Pulp then interprets the above and forms a separate <i>.lp</i> file which handles all the backend work. Simply put a <i> print(value(prob.objective))</i> at the end and voila! There is your optimal route configuration. 
+	    </p>
 	    	    		
 
 	    </section>
