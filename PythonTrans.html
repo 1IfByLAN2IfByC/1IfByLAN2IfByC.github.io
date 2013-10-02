@@ -25,7 +25,35 @@
 	    	<h1> A Transport Optimization Model in Python </h1>
 
 	    	<p>
-	    		Transportation problems deal with efficiently allocating resources from supply to demand node given a cost function. Using linear optimization, these problems can be solved using computational methods via python and the module <a href="https://pypi.python.org/pypi/PuLP">PuLP</a>. 
+	    		Transportation problems deal with efficiently allocating resources from supply to demand node given a cost function. Using linear optimization, these problems can be solved using computational methods via python and the module <a href="https://pypi.python.org/pypi/PuLP">PuLP</a>. </p>
+	    		
+	    	<p>
+	    		In the proposed model, there exists two supply nodes-- each with their own respective production quantities and labor costs-- who must ship to five markets of different distances and retail prices. The goal of the model can be either a) cost-minimization or b) profit-maximization. </p>
+	    	
+	    		
+	    	<h3> Setting up the Model </h3>
+	    	
+	    	<p>
+	    		Firstly, the producer and consumer nodes are given supply and demand quantities. These are posed as a dictionary in Python, as the dictionary data-structure makes it easier, opposed to an array, to call data later on. Notice that in addition to the cites, a node <i>warehouse</i> is created as both a demand and supply node. The economic rational behind this is that any extra supply is not simply lost, but instead stored until the next period at a cost. Conversely, if demand is greater than total production, product can be shipped from the warehouse to satisfy demand. In addition to the labor cost and shipping cost at the warehouse, the goods stored incur some set depreciation rate.
+	    	
+	    <script src="https://gist.github.com/1IfByLAN2IfByC/78020ec0e2f8bf33152e.js"></script>
+	    
+	    	</p>
+	    	
+	    	<p>
+	    		Next, we create a numpy array to house the distances <i>D<sub>ij</sub></i> and the cost per mile along each route. 
+	    
+	    <script src="https://gist.github.com/1IfByLAN2IfByC/7f52d51253d646065680.js"></script>
+	    
+	    	</p>
+	    	
+	    <h3> Solving the Model with PuLP </h3>
+	    
+	    <p> 
+	    	Here is where the magic happens: we setup a linear system of equations which can be solved (<b>read: optimized</b>) via PuLP. By defining a cost function 
+	    	\\ [cost_{i,j} = distance_{i,j} * wage_{i,j} s]\\ 
+
+	    		
 
 	    </section>
 	 <script src="javascripts/scale.fix.js"></script>
