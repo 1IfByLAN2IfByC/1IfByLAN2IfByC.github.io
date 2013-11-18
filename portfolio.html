@@ -26,13 +26,69 @@
                     
                     <h1> Portfolio Optimization in Python </h1>
 
-            <p> A while back ago I was asked to create a program that would create an optimal portfolio of assets. This model uses Pandas to pull real-time price data from Yahoo! Finance, then performs Monte-Carlo simulations to find the best portfolio given some preset risk tolerence. 
+            <p> 
+                Portfolio management can be viewed as an optimization problem in which profit is maximized subject to a limit on volatility. However, the proposed model choses instead to maximize expected utility (EU) via a monte carlo simulation. Randomly generated portfolio allocations are created and the EU of a risk-adverse investor is calculated to find the optimal portfolio. The price of each asset is pulled from online sources and is used to calculate both profit and volatility. Individual asset volatility is calculated using an exponentially-weighted moving average, which more strongly weights recent data, while the entire portfolio's volatility is calculated using traditional covariance. From historical data, each asset's future performance is predicted via linear regression. The locally optimal solution is defined as the portfolio with the highest EU without exceeding a predetermined level of risk. The model is run in the Python programming language and takes advantage of NumPy's mathematical functions, Pandas ability to handle time-series, as well as the Statsmodels' statistical capabilities. 
             </p>
 
+            <h2>The Base Model</h2>
+            <p>
+                The original model as developed by Ruben Mercado, Scott Schwaitzberg, and David Kendrick utilizes a monte carlo method to randomly generate the stock prices. The performance of these stocks is simulated by the a random number generator times some coefficient. While this is pseudorandom, ultimately the asset's final price is determined by the hard-coded initial values. This is less than optimal, and misses the complexity that real data has to offer. Also, the covariance of the portfolio is not calculated, thus missing out on an important metric of portfolio diversification. 
+            </p>
 
-            <object data="/PDF/PortfolioManagmentinPython.pdf" type="application/pdf" width="100%" height="100%">
+            <h2> Improved Model in Python </h2>
+            <p>Building off the works of Mercado, Schwaitzberg, and Kendrick, an improved model is created. By instead maximizing expected utility of prices, the improved model more accurately simulate portfolio management. Historical data is used to predict future prices, transforming the model to a functional investment tool. The volatility of the entire portfolio is calculated using matrix operations to show the beneficial effects of diversification as suggested by Markowitz in his 1952 paper on Modern Portfolio Theory (Markowitz, 1990). Additionally, a more modern method of calculating asset volatility is built-in such that recent volatility is more heavily weighted. The proposed model retains the monte carlo method for optimization, as a closed form function could not be readily created.
+            </p>
 
-            </object>
+            <h3>Expected Utility Function </h3>
+            <p>
+                Mercado, Schwaitzberg, Kendrick, and I all initially maximized profit instead of utility. However, this oversimplification leads both our models to seek only the most profitable asset unless other constraints are placed. Expected utility factors in not only profitability (<b>$$\pi$$</b>), but the volatility of the asset, investor's level of risk-aversion ({\bf ${\beta}$}),  and the discount factor (<b> $$\delta$$ </b>). By using the EWMA instead of total volatility in EU calculations, the model simulates individuals' emphasis on recent events (i.e. failed product launch, law suites, etc.) when evaluating an asset's risk. 
+
+                $$ EU(\pi, EWMA, \beta, \delta, t) = 1 - \exp{(-\beta \frac{\pi}{EWMA} \delta^{t})} $$
+
+                This functional form is based-off of the Arrow-Pratt measure of absolute risk-aversion (A) exhibiting constant risk-aversion (EconPort, 2013). 
+
+                $$  A(c) = -\frac{u''(c)}{u'(c)} $$ 
+
+                <img src="/Figures/EU_fn.png" alt="Expected Utility Function">
+
+                Absolute risk-aversion (ABA) implies that the actor is equally averse to losing his first dollar as his hundredth and that risk-aversion is independent of wealth-- a property challenged by behavioral economists. Flaws aside, ABA functions are useful in modeling because of their simple derivatives and limit of one.
+
+            <h3> Pulling Real-Time Data </h3>
+            Instead of simply creating fictional stock prices and volatility, the new model turns to the web for real world prices. By interfacing with Yahoo! Finance's API, we are able to pull historical financial data into the model, including the adjusted close price and ${\beta}$, a measure of an asset's covariance with the market (usually defined as the S\&P 500). ${\beta}$ is often used as a proxy for an asset's systemic risk, or the risk posed to all assets in a market segment and cannot be eliminated via portfolio diversification (<i>LSE</i>). 
+            <p>
+            From the historical data (01/01/2010 - Present), some basic statistics are calculated, including the mean ($${\mu}$$), standard deviation (${\sigma}$), and correlation ($${\rho}$$). Where <i>E</i> is the expected value operator:
+
+            $$  \mu = \frac{x_{1} + x_{2} ... + x_{n}} {n} $$
+
+            $$  \sigma = \sqrt{E[(X - \mu])^{2}} $$
+
+            $$  \rho_{x,y} = \frac{E(X - E[X])(Y-E[Y])}{\sigma_{x}\sigma_{y}} $$
+
+            From the above we can evaluate how risky-- and profitable-- our portfolio is. The mean of the asset price over time is used to predict how profitable an asset will be; the standard deviation how volatile the asset is; the covariance how diversified our portfolio is. The covariance is particularly important in building a successful portfolio as it shows how the assets fluctuate in unison. A covariance of unity implies that the two assets move in equal amounts-- when the price of one increases the price of the other increases by the same percentage-- a covariance of negative one implies that when the price of one asset increases, the other asset decreases by the same amount. In this model, and optimal total covariance is naught, meaning that the portfolio will perform well regardless of volatility in one particular asset. </p>
+
+            <h3> Portfolio Diversification </h3>
+            Modern portfolio theory (MPT) is the mathematical foundation for much of today's investing strategies, especially with regards to diversification. MPT attempts to maximize the EU of a portfolio for a given level of risk by creating a portfolio consisting of various assets. The theory suggests that since an individual asset is normally distributed, by selecting assets whose performance is not positively correlated, a risk-adverse investor can effectively insulate him or herself from market shocks. When returns are plotted against standard deviation, there exists some efficient frontier outside <b>Figure 1 </b> of which no better returns can be gain for a given level of risk.  
+
+            <img src="/Figures/Efficient_Frontier.png" alt=""Efficient_Frontier>
+
+            With this concept in mind, we construct a metric of the portfolio's risk by relating each individual asset's volatility with its covariance with every other asset. For three assets:
+
+            $$  \Sigma = \sqrt{\sigma_{a} w_{a} + \sigma_{b} w_{b} + \sigma_{c} w{c} + ab*cov_{ab} + ac * cov_{ac} + bc cov_{vc} } $$
+
+            This is readily transformed into a matrix for any arbitrary number of assets. Thus, as the number of assets in the portfolio <i>P</i> approaches infinity, the EU(<i>P</i>] approaches the weighted mean of all constituent assets. 
+
+            $$ \Sigma = 
+            \begin{pmatrix} x_{1} & x_{2} & ... x_{n} \end{pmatrix}
+            \begin{pmatrix} \sigma_{1} & \sigma_{12} & ... & \sigma_{1n} \\ 
+            \sigma_{12} & \sigma_{2} & ... & \sigma_{2n} \\
+            ... & ... & ... & ... \\
+            \sigma_{1n} & \sigma_{2n} & ... & \sigma_{nn} \end{pmatrix}
+            \begin{pmatrix} x_{1} \\ x_{2} \\ ... \\ x_{n} \end{pmatrix} $$
+
+            <p>
+                The above equation will result in a scalar value that will decrease in magnitude as the number of assets <i>n</i> increases. MPT has been challenged in recent years as data has shown that many equities are not normally distributed, and instead have fatter tails, hence the phrase tail-side risk.
+
+
 
         </body>
     <html>
