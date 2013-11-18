@@ -41,7 +41,7 @@
 
             <h3>Expected Utility Function </h3>
             <p>
-                Mercado, Schwaitzberg, Kendrick, and I all initially maximized profit instead of utility. However, this oversimplification leads both our models to seek only the most profitable asset unless other constraints are placed. Expected utility factors in not only profitability (<b>$$\pi$$</b>), but the volatility of the asset, investor's level of risk-aversion ({\bf ${\beta}$}),  and the discount factor (<b> $$\delta$$ </b>). By using the EWMA instead of total volatility in EU calculations, the model simulates individuals' emphasis on recent events (i.e. failed product launch, law suites, etc.) when evaluating an asset's risk. 
+                Mercado, Schwaitzberg, Kendrick, and I all initially maximized profit instead of utility. However, this oversimplification leads both our models to seek only the most profitable asset unless other constraints are placed. Expected utility factors in not only profitability (<b>\(\pi\)</b>), but the volatility of the asset, investor's level of risk-aversion ({\bf ${\beta}$}),  and the discount factor (<b> \(\delta\) </b>). By using the EWMA instead of total volatility in EU calculations, the model simulates individuals' emphasis on recent events (i.e. failed product launch, law suites, etc.) when evaluating an asset's risk. 
 
                 $$ EU(\pi, EWMA, \beta, \delta, t) = 1 - \exp{(-\beta \frac{\pi}{EWMA} \delta^{t})} $$
 
@@ -54,9 +54,9 @@
                 Absolute risk-aversion (ABA) implies that the actor is equally averse to losing his first dollar as his hundredth and that risk-aversion is independent of wealth-- a property challenged by behavioral economists. Flaws aside, ABA functions are useful in modeling because of their simple derivatives and limit of one.
 
             <h3> Pulling Real-Time Data </h3>
-            Instead of simply creating fictional stock prices and volatility, the new model turns to the web for real world prices. By interfacing with Yahoo! Finance's API, we are able to pull historical financial data into the model, including the adjusted close price and ${\beta}$, a measure of an asset's covariance with the market (usually defined as the S\&P 500). ${\beta}$ is often used as a proxy for an asset's systemic risk, or the risk posed to all assets in a market segment and cannot be eliminated via portfolio diversification (<i>LSE</i>). 
+            Instead of simply creating fictional stock prices and volatility, the new model turns to the web for real world prices. By interfacing with Yahoo! Finance's API, we are able to pull historical financial data into the model, including the adjusted close price and \(\beta\), a measure of an asset's covariance with the market (usually defined as the S\&P 500). \( \beta \) is often used as a proxy for an asset's systemic risk, or the risk posed to all assets in a market segment and cannot be eliminated via portfolio diversification (<i>LSE</i>). 
             <p>
-            From the historical data (01/01/2010 - Present), some basic statistics are calculated, including the mean ($${\mu}$$), standard deviation (${\sigma}$), and correlation ($${\rho}$$). Where <i>E</i> is the expected value operator:
+            From the historical data (01/01/2010 - Present), some basic statistics are calculated, including the mean \(\mu \), standard deviation \(\sigma \), and correlation \(\rho} \). Where <i>E</i> is the expected value operator:
 
             $$  \mu = \frac{x_{1} + x_{2} ... + x_{n}} {n} $$
 
@@ -71,7 +71,7 @@
 
             <img src="/Figures/Efficient_Frontier.png" alt=""Efficient_Frontier>
 
-            With this concept in mind, we construct a metric of the portfolio's risk by relating each individual asset's volatility with its covariance with every other asset. For three assets:
+            <p>With this concept in mind, we construct a metric of the portfolio's risk by relating each individual asset's volatility with its covariance with every other asset. For three assets: </p>
 
             $$  \Sigma = \sqrt{\sigma_{a} w_{a} + \sigma_{b} w_{b} + \sigma_{c} w{c} + ab*cov_{ab} + ac * cov_{ac} + bc cov_{vc} } $$
 
