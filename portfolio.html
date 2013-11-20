@@ -29,8 +29,9 @@
             <p> 
                 Portfolio management can be viewed as an optimization problem in which profit is maximized subject to a limit on volatility. However, the proposed model choses instead to maximize expected utility (EU) via a monte carlo simulation. Randomly generated portfolio allocations are created and the EU of a risk-adverse investor is calculated to find the optimal portfolio. The price of each asset is pulled from online sources and is used to calculate both profit and volatility. Individual asset volatility is calculated using an exponentially-weighted moving average, which more strongly weights recent data, while the entire portfolio's volatility is calculated using traditional covariance. From historical data, each asset's future performance is predicted via linear regression. The locally optimal solution is defined as the portfolio with the highest EU without exceeding a predetermined level of risk. The model is run in the Python programming language and takes advantage of NumPy's mathematical functions, Pandas ability to handle time-series, as well as the Statsmodels' statistical capabilities. 
             </p>
-
+            <p>
             <a href="https://github.com/1IfByLAN2IfByC/Compuational_Econ-/tree/master/PortfolioOptimization">Complete code can be found @Github</a> 
+        </p>
 
             <h2>The Base Model</h2>
             <p>
@@ -77,7 +78,7 @@
 
                 $$  \Sigma = \sqrt{\sigma_{a} w_{a} + \sigma_{b} w_{b} + \sigma_{c} w{c} + ab*cov_{ab} + ac * cov_{ac} + bc cov_{vc} } $$
 
-                This is readily transformed into a matrix for any arbitrary number of assets. Thus, as the number of assets in the portfolio <i>P</i> approaches infinity, the EU(<i>P</i>] approaches the weighted mean of all constituent assets. 
+                This is readily transformed into a matrix for any arbitrary number of assets. Thus, as the number of assets in the portfolio <i>P</i> approaches infinity, the EU(<i>P</i>) approaches the weighted mean of all constituent assets. 
 
                 $$ \Sigma = 
                 \begin{pmatrix} x_{1} & x_{2} & ... x_{n} \end{pmatrix}
@@ -90,7 +91,7 @@
             <p>
                 The above equation will result in a scalar value that will decrease in magnitude as the number of assets <i>n</i> increases. MPT has been challenged in recent years as data has shown that many equities are not normally distributed, and instead have fatter tails, hence the phrase tail-side risk.
 
-            <h3> Linear Regression and Forecasting <h3>
+            <h3> Linear Regression and Forecasting </h3>
                 <p>In order to make the model a predictive tool for portfolio analysis and and not a sophisticated backwardization program, asset prices had to be forecasted into the future. To do this, linear regression was done on only the past six months of prices and from this data, forecasted  six months in the future. Data older than six months is disregarded as it has little influence on pricing in the short-term where fluctuations are dominated by asset and market momentum. </p>
 
                 Linear fitting is achieved by minimizing the sum of residuals between all points and the line of best fit. To accomplish this, the model employs a custom gradient (or steepest) decent algorithm. Where <i>R</i> is the residual and <i>i</i> is the slope:
@@ -102,7 +103,7 @@
 
                  $$     \sigma = \sqrt{(1-\lambda) \sum{ \lambda^{i}(r_{i-1} - r_{avg})^2})} $$
 
-                 Where <i>r</i> is the return on an asset and \(\lambda \)is some decay factor. A financial services company, <i>RiskMetrics</i>, as does this model, uses a decay factor of .94 to forecast. However, \( \lambda \) can be changed to reflect the manager's opinion on how distant performance reflects future gains.
+                 <p>Where <i>r</i> is the return on an asset and \(\lambda \)is some decay factor. A financial services company, <i>RiskMetrics</i>, as does this model, uses a decay factor of .94 to forecast. However, \( \lambda \) can be changed to reflect the manager's opinion on how distant performance reflects future gains.</p>
 
 
             <h3> Monte Carlo Simulation </h3>
@@ -112,7 +113,7 @@
 
                 $$ p({\bf p}) = Dirichlet({\bf p, u}) = \frac{1}{Z({\bf u})} \Pi p_{i}^{u_{i}-1} $$
 
-            <h3> Defining Optimality <h3>
+            <h3> Defining Optimality </h3>
                  After repeated random sampling we will have a <i> m x n </i> matrix where <i>n</i> is the number of runs and <i>m</i> houses the variables of interest, namely EU, profit, EWMA, and the weights of each asset in the portfolio. Where \(w^{j} \) is the weight of each \(j^{th} \) asset:
 
                  $$ \[optimal(EU, \sigma) = \left | \begin{array}{ccc}
@@ -147,15 +148,15 @@
 
                 <img src='Figures/profit_v_beta.png' alt='Profit vs. Risk Aversion'>
 
-                Since the EU is inversely related volatility and positively correlated with profit, there can exist multiple optimal solutions based on the criteria selected-- the portfolio with the highest EU is not necessarily the portfolio with the highest profit as seen below. 
+                <p>Since the EU is inversely related volatility and positively correlated with profit, there can exist multiple optimal solutions based on the criteria selected-- the portfolio with the highest EU is not necessarily the portfolio with the highest profit as seen below. </p>
 
                 <img src='Figures/OptimalPort_EU.png' alt='Optimal Profit Based on Expected Utility'>
 
-                When compared to the optimal portfolio determined by profit, the shift towards higher returns in riskier assets is evident. The model predicts an optimal portfolio with higher percentages of Google and Apple, with a smaller portion of safe assets such as the United States Dollar and gold.
+                <p>When compared to the optimal portfolio determined by profit, the shift towards higher returns in riskier assets is evident. The model predicts an optimal portfolio with higher percentages of Google and Apple, with a smaller portion of safe assets such as the United States Dollar and gold.</p>
 
                 <img src='Figures/OptimalPort_profit.png' alt='Optimal Portfolio Based on Profit' >
 
-                Another experiment was run to show the effect that investor risk-tolerance plays in selecting the optimal portfolio. Intuitively, an investor who is more risk-averse ({ modeled by a higher \(\beta \)) will select a portfolio consisting of low-risk stocks. In the model, an asset is considered high-risk if its standard deviation is greater than $20. By varying \( \beta\) and observing the effect on the optimal portfolio, we can confirm if the model matches intuition. 
+                <p>Another experiment was run to show the effect that investor risk-tolerance plays in selecting the optimal portfolio. Intuitively, an investor who is more risk-averse ({ modeled by a higher \(\beta \)) will select a portfolio consisting of low-risk stocks. In the model, an asset is considered high-risk if its standard deviation is greater than $20. By varying \( \beta\) and observing the effect on the optimal portfolio, we can confirm if the model matches intuition. </p>
 
                 <img src ='Figures/High_Risk.png' alt='Share of high risk assets in the portfolio' >
 
