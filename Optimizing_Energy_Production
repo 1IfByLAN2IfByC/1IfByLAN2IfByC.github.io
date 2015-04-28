@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+ 	<head>
+    	<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+	    <title>1ifbyLAN2ifbyC</title>
+	    
+	    <link rel="stylesheet" href="stylesheets/styles.css">
+	    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	   
+	    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+	</head>
+
+	<body>
+    	<div class="wrapper">
+      	<header>
+        	<h1><a href="/">Michael Lee</a></h1>
+       		<h3><a href="/PythonTrans">Python Transportation Model</a></h>
+        	<h3><a href="/portfolio">Portfolio Optimization in Python</a></h3>
+        	<h3><a href="Optimizing_Energy_Production"><Geospatial and Competetive Equilibrium with Python></a></h>
+
+
+    	</header>
+
+	    <section>
+	    	
+	    	<h1> Geospatial and Competetive Equilibrium with Python </h1>
+
+	    
+
+
+
+
+	    </section>
+	</body>
+</html>
